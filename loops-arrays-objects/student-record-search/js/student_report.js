@@ -1,4 +1,4 @@
-const convertToString = (student) => {
+const convertToString = student => {
   let str =
       "<h2>Name: " + student.name + "</h2>" +
       "<p>Track: " + student.track + "</p>" +
@@ -7,7 +7,7 @@ const convertToString = (student) => {
   return str;
 }
 
-const printToPage = (output) => divOutput.innerHTML = output;
+const printToPage = output => divOutput.innerHTML = output;
 
 const cycleThroughAllStudents = () => {
   let output = '';
