@@ -1,7 +1,5 @@
-var output = '';
-
 function convertToString(student) {
-  var str = 
+  let str =
       "<h2>Name: " + student.name + "</h2>" +
       "<p>Track: " + student.track + "</p>" +
       "<p>Achievements: " + student.achievements + "</p>" +
@@ -10,11 +8,13 @@ function convertToString(student) {
 }
 
 function printToPage(output) {
-  var div = document.getElementById('output');
-  div.innerHTML = output;
+  divOutput.innerHTML = output;
 }
 
-for (var i = 0; i < students.length; i++) {
-  output += convertToString(students[i]);
+function cycleThroughAllStudents() {
+  let output = '';
+  for (let i = 0; i < students.length; i++) {
+    output += convertToString(students[i]);
+  }
+  printToPage(output);
 }
-printToPage(output);
