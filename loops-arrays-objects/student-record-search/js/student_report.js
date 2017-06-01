@@ -1,4 +1,4 @@
-function convertToString(student) {
+const convertToString = (student) => {
   let str =
       "<h2>Name: " + student.name + "</h2>" +
       "<p>Track: " + student.track + "</p>" +
@@ -7,11 +7,9 @@ function convertToString(student) {
   return str;
 }
 
-function printToPage(output) {
-  divOutput.innerHTML = output;
-}
+const printToPage = (output) => divOutput.innerHTML = output;
 
-function cycleThroughAllStudents() {
+const cycleThroughAllStudents = () => {
   let output = '';
   for (let i = 0; i < students.length; i++) {
     output += convertToString(students[i]);
