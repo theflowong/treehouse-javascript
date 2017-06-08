@@ -57,3 +57,14 @@ removeItemButton.addEventListener('click', () => {
   let li = list.querySelector('li:last-child')
   list.removeChild(li);
 })
+
+// Mouseover list items - event handlers (event bubbling and delegation)
+
+list.addEventListener('mouseover', (event) => {
+  if (event.target.tagName == 'LI') {
+    event.target.textContent = event.target.textContent.toUpperCase();
+    event.target.addEventListener('mouseout', () => {
+      event.target.textContent = event.target.textContent.toLowerCase();
+    })
+  }
+});
