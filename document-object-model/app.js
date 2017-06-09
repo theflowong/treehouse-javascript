@@ -12,6 +12,7 @@ const list = document.querySelector('ul.list');
 
 const removeButtonHTML = '<button class="remove">Remove item</button>';
 const upButtonHTML = '<button class="up">Up</button>'
+const downButtonHTML = '<button class="down">Down</button>'
 const addButton = (listItem, buttonHTML) => listItem.innerHTML += buttonHTML;
 
 // Changing color - event handlers
@@ -53,6 +54,7 @@ addItemButton.addEventListener('click', () => {
   li.innerHTML = addItemInput.value;
   list.appendChild(li);
   addButton(li, upButtonHTML);
+  addButton(li, downButtonHTML);
   addButton(li, removeButtonHTML);
   addItemInput.value = '';
 })
@@ -60,7 +62,7 @@ addItemButton.addEventListener('click', () => {
 // Mouseover list items - event handlers (event bubbling and delegation)
 
 list.addEventListener('mouseover', (event) => {
-  let textCutoff = 0-upButtonHTML.length-removeButtonHTML.length;
+  let textCutoff = 0-upButtonHTML.length-downButtonHTML.length-removeButtonHTML.length;
   if (event.target.tagName == 'LI') {
     event.target.innerHTML = event.target.innerHTML.slice(0,textCutoff).toUpperCase() + event.target.innerHTML.slice(textCutoff, event.target.innerHTML.length);
     event.target.addEventListener('mouseout', () => {
@@ -73,7 +75,8 @@ list.addEventListener('mouseover', (event) => {
 
 // add buttons to each list item
 for (let i = 0; i < listItems.length; i++) {
-  addButton(listItems[i], upButtonHTML)
+  addButton(listItems[i], upButtonHTML);
+  addButton(listItems[i], downButtonHTML);
   addButton(listItems[i], removeButtonHTML);
 }
 
@@ -87,6 +90,11 @@ list.addEventListener('click', (event) => {
       let prevLi = li.previousElementSibling;
       if (prevLi) {
         ul.insertBefore(li, prevLi);
+      }
+    } else if (event.target.className == 'down') {
+      let nextLi = li.nextElementSibling;
+      if (nextLi) {
+        ul.insertBefore(nextLi, li);
       }
     }
   }
