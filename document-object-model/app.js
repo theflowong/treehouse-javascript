@@ -4,7 +4,6 @@ const inputColor = document.querySelector('input.color');
 
 const addItemInput = document.querySelector('input.addItemInput');
 const addItemButton = document.querySelector('button.addItemButton');
-const removeItemButton = document.querySelector('button.removeLastItem');
 const listItems = document.getElementsByTagName('li');
 
 const toggleList = document.querySelector('button#toggleList');
@@ -56,11 +55,6 @@ addItemButton.addEventListener('click', () => {
   list.appendChild(li);
   addRemoveButton(li);
   addItemInput.value = '';
-})
-
-removeItemButton.addEventListener('click', () => {
-  let li = list.querySelector('li:last-child')
-  list.removeChild(li);
 })
 
 // Mouseover list items - event handlers (event bubbling and delegation)
