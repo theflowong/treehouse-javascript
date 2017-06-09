@@ -11,9 +11,8 @@ const listDiv = document.querySelector('div.listDiv');
 const list = document.querySelector('ul.list');
 
 const removeButtonHTML = '<button class="remove">Remove item</button>';
-const addRemoveButton = (listItem) => listItem.innerHTML += removeButtonHTML;
-
-
+const upButtonHTML = '<button class="up">Up</button>'
+const addButton = (listItem, buttonHTML) => listItem.innerHTML += buttonHTML;
 
 // Changing color - event handlers
 buttonColor.addEventListener('click', () => {
@@ -53,34 +52,42 @@ addItemButton.addEventListener('click', () => {
   let li = document.createElement('li');
   li.innerHTML = addItemInput.value;
   list.appendChild(li);
-  addRemoveButton(li);
+  addButton(li, upButtonHTML);
+  addButton(li, removeButtonHTML);
   addItemInput.value = '';
 })
 
 // Mouseover list items - event handlers (event bubbling and delegation)
 
 list.addEventListener('mouseover', (event) => {
+  let textCutoff = 0-upButtonHTML.length-removeButtonHTML.length;
   if (event.target.tagName == 'LI') {
-    event.target.innerHTML = event.target.innerHTML.slice(0,0-removeButtonHTML.length).toUpperCase() + event.target.innerHTML.slice(0-removeButtonHTML.length, event.target.innerHTML.length);
+    event.target.innerHTML = event.target.innerHTML.slice(0,textCutoff).toUpperCase() + event.target.innerHTML.slice(textCutoff, event.target.innerHTML.length);
     event.target.addEventListener('mouseout', () => {
-      event.target.innerHTML = event.target.innerHTML.slice(0,0-removeButtonHTML.length).toLowerCase() + event.target.innerHTML.slice(0-removeButtonHTML.length, event.target.innerHTML.length);
+      event.target.innerHTML = event.target.innerHTML.slice(0,textCutoff).toLowerCase() + event.target.innerHTML.slice(textCutoff, event.target.innerHTML.length);
     })
   }
 });
 
 // Remove items - use parentNode to traverse up DOM
 
-// add "remove" buttons to each list item
+// add buttons to each list item
 for (let i = 0; i < listItems.length; i++) {
-  addRemoveButton(listItems[i]);
+  addButton(listItems[i], upButtonHTML)
+  addButton(listItems[i], removeButtonHTML);
 }
 
 list.addEventListener('click', (event) => {
-  console.log(event.target.tagName);
   if (event.target.tagName == 'BUTTON') {
-    console.log('clicked button');
     let li = event.target.parentNode;
     let ul = li.parentNode;
-    ul.removeChild(li);
+    if (event.target.className == 'remove') {
+      ul.removeChild(li);
+    } else if (event.target.className == 'up') {
+      let prevLi = li.previousElementSibling;
+      if (prevLi) {
+        ul.insertBefore(li, prevLi);
+      }
+    }
   }
 })
