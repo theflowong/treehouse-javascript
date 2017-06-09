@@ -11,6 +11,10 @@ const toggleList = document.querySelector('button#toggleList');
 const listDiv = document.querySelector('div.listDiv');
 const list = document.querySelector('ul.list');
 
+const removeButtonHTML = '<button class="remove">Remove item</button>';
+const addRemoveButton = (listItem) => listItem.innerHTML += removeButtonHTML;
+
+
 
 // Changing color - event handlers
 buttonColor.addEventListener('click', () => {
@@ -50,6 +54,7 @@ addItemButton.addEventListener('click', () => {
   let li = document.createElement('li');
   li.innerHTML = addItemInput.value;
   list.appendChild(li);
+  addRemoveButton(li);
   addItemInput.value = '';
 })
 
@@ -62,9 +67,26 @@ removeItemButton.addEventListener('click', () => {
 
 list.addEventListener('mouseover', (event) => {
   if (event.target.tagName == 'LI') {
-    event.target.textContent = event.target.textContent.toUpperCase();
+    event.target.innerHTML = event.target.innerHTML.slice(0,0-removeButtonHTML.length).toUpperCase() + event.target.innerHTML.slice(0-removeButtonHTML.length, event.target.innerHTML.length);
     event.target.addEventListener('mouseout', () => {
-      event.target.textContent = event.target.textContent.toLowerCase();
+      event.target.innerHTML = event.target.innerHTML.slice(0,0-removeButtonHTML.length).toLowerCase() + event.target.innerHTML.slice(0-removeButtonHTML.length, event.target.innerHTML.length);
     })
   }
 });
+
+// Remove items - use parentNode to traverse up DOM
+
+// add "remove" buttons to each list item
+for (let i = 0; i < listItems.length; i++) {
+  addRemoveButton(listItems[i]);
+}
+
+list.addEventListener('click', (event) => {
+  console.log(event.target.tagName);
+  if (event.target.tagName == 'BUTTON') {
+    console.log('clicked button');
+    let li = event.target.parentNode;
+    let ul = li.parentNode;
+    ul.removeChild(li);
+  }
+})
