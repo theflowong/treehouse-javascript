@@ -10,27 +10,11 @@ const addItemInput = document.querySelector('input.addItemInput');
 const addItemButton = document.querySelector('button.addItemButton');
 const listItems = document.getElementsByTagName('li');
 
-// Changing color - event handlers
+// Changing header color - event handlers
 buttonColor.addEventListener('click', () => {
   pageTitle.style.color = inputColor.value;
   inputColor.value = '';
 });
-
-// List - selectors
-const myTitle = document.querySelector('[title=listTitle]');
-myTitle.style.color = 'green';
-const myList = document.getElementsByTagName('li');
-for (let i = 0; i < myList.length; i++) {
-  myList[i].style.color = 'purple';
-}
-const errorNotPurple = document.querySelectorAll('.error-not-purple');
-for (let i = 0; i < errorNotPurple.length; i++) {
-  errorNotPurple[i].style.color = 'red';
-}
-const evens = document.querySelectorAll('li:nth-child(even)');
-for (let i = 0; i < evens.length; i++) {
-  evens[i].style.backgroundColor = 'lightgray';
-}
 
 // Toggle Button - hiding and unhiding elements on page
 togList.addEventListener('click', () => {
@@ -88,11 +72,10 @@ updateListOrderStyles = (list) => {
   list.firstElementChild.className = 'first';
   list.lastElementChild.className = 'last';
 
-  list.children[1].style.backgroundColor = '';
-  list.querySelector('.first').style.backgroundColor = 'blue';
-  list.children[list.children.length-2].style.backgroundColor = '';
-  list.querySelector('.last').style.backgroundColor = 'orange';
-  console.log('updating');
+  list.children[1].querySelector('button.up').style.visibility = 'visible';
+  list.firstElementChild.querySelector('button.up').style.visibility = 'hidden';
+  list.children[list.children.length-2].querySelector('button.down').style.visibility = 'visible';
+  list.lastElementChild.querySelector('button.down').style.visibility = 'hidden';
 }
 
 // add buttons to each list item
