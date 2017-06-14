@@ -10,11 +10,6 @@ const toggleList = document.querySelector('button#toggleList');
 const listDiv = document.querySelector('div.listDiv');
 const list = document.querySelector('ul.list');
 
-const removeButtonHTML = '<button class="remove">Remove item</button>';
-const upButtonHTML = '<button class="up">Up</button>'
-const downButtonHTML = '<button class="down">Down</button>'
-const addButton = (listItem, buttonHTML) => listItem.innerHTML += buttonHTML;
-
 // Changing color - event handlers
 buttonColor.addEventListener('click', () => {
   myHeading.style.color = inputColor.value;
@@ -48,25 +43,40 @@ toggleList.addEventListener('click', () => {
   }
 });
 
+const attachListItemButtons = (li) => {
+  let up = document.createElement('button');
+  up.className = 'up';
+  up.textContent = 'Up';
+  li.appendChild(up);
+
+  let down = document.createElement('button');
+  down.className = 'down';
+  down.textContent = 'Down';
+  li.appendChild(down);
+
+  let remove = document.createElement('button');
+  remove.className = 'remove';
+  remove.textContent = 'Remove button';
+  li.appendChild(remove);
+}
+
 // Add to list - creating new elements
 addItemButton.addEventListener('click', () => {
   let li = document.createElement('li');
   li.innerHTML = addItemInput.value;
   list.appendChild(li);
-  addButton(li, upButtonHTML);
-  addButton(li, downButtonHTML);
-  addButton(li, removeButtonHTML);
+  attachListItemButtons(li);
   addItemInput.value = '';
 })
 
 // Mouseover list items - event handlers (event bubbling and delegation)
 
 list.addEventListener('mouseover', (event) => {
-  let textCutoff = 0-upButtonHTML.length-downButtonHTML.length-removeButtonHTML.length;
   if (event.target.tagName == 'LI') {
-    event.target.innerHTML = event.target.innerHTML.slice(0,textCutoff).toUpperCase() + event.target.innerHTML.slice(textCutoff, event.target.innerHTML.length);
+    let orig_content = event.target.firstChild.textContent;
+    event.target.firstChild.textContent = orig_content.toUpperCase();
     event.target.addEventListener('mouseout', () => {
-      event.target.innerHTML = event.target.innerHTML.slice(0,textCutoff).toLowerCase() + event.target.innerHTML.slice(textCutoff, event.target.innerHTML.length);
+      event.target.firstChild.textContent = orig_content;
     })
   }
 });
@@ -75,9 +85,7 @@ list.addEventListener('mouseover', (event) => {
 
 // add buttons to each list item
 for (let i = 0; i < listItems.length; i++) {
-  addButton(listItems[i], upButtonHTML);
-  addButton(listItems[i], downButtonHTML);
-  addButton(listItems[i], removeButtonHTML);
+  attachListItemButtons(listItems[i]);
 }
 
 list.addEventListener('click', (event) => {
