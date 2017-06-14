@@ -1,4 +1,4 @@
-const myHeading = document.getElementById('myHeading');
+const pageTitle = document.getElementById('_pageTitle');
 const buttonColor = document.querySelector('button.color');
 const inputColor = document.querySelector('input.color');
 
@@ -6,13 +6,13 @@ const addItemInput = document.querySelector('input.addItemInput');
 const addItemButton = document.querySelector('button.addItemButton');
 const listItems = document.getElementsByTagName('li');
 
-const toggleList = document.querySelector('button#toggleList');
+const togList = document.querySelector('button#_togList');
 const listDiv = document.querySelector('div.listDiv');
 const list = document.querySelector('ul.list');
 
 // Changing color - event handlers
 buttonColor.addEventListener('click', () => {
-  myHeading.style.color = inputColor.value;
+  pageTitle.style.color = inputColor.value;
   inputColor.value = '';
 });
 
@@ -33,13 +33,13 @@ for (let i = 0; i < evens.length; i++) {
 }
 
 // Toggle Button - hiding and unhiding elements on page
-toggleList.addEventListener('click', () => {
+togList.addEventListener('click', () => {
   if (listDiv.style.display == 'none') { // list is hidden
     listDiv.style.display = 'block';
-    toggleList.textContent = 'Hide list';
+    togList.textContent = 'Hide list';
   } else {
     listDiv.style.display = 'none';
-    toggleList.textContent = 'Show list';
+    togList.textContent = 'Show list';
   }
 });
 
