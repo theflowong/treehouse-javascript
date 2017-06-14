@@ -2,13 +2,13 @@ const pageTitle = document.getElementById('_pageTitle');
 const buttonColor = document.querySelector('button.color');
 const inputColor = document.querySelector('input.color');
 
-const addItemInput = document.querySelector('input.addItemInput');
-const addItemButton = document.querySelector('button.addItemButton');
-const listItems = document.getElementsByTagName('li');
-
 const togList = document.querySelector('button#_togList');
 const listDiv = document.querySelector('div.listDiv');
 const list = document.querySelector('ul.list');
+
+const addItemInput = document.querySelector('input.addItemInput');
+const addItemButton = document.querySelector('button.addItemButton');
+const listItems = document.getElementsByTagName('li');
 
 // Changing color - event handlers
 buttonColor.addEventListener('click', () => {
@@ -81,12 +81,29 @@ list.addEventListener('mouseover', (event) => {
   }
 });
 
-// Remove items - use parentNode to traverse up DOM
+// update order of list items
+updateListOrderStyles = (list) => {
+  list.children[1].className = '';
+  list.children[list.children.length-2].className = '';
+  list.firstElementChild.className = 'first';
+  list.lastElementChild.className = 'last';
+
+  list.children[1].style.backgroundColor = '';
+  list.querySelector('.first').style.backgroundColor = 'blue';
+  list.children[list.children.length-2].style.backgroundColor = '';
+  list.querySelector('.last').style.backgroundColor = 'orange';
+  console.log('updating');
+}
 
 // add buttons to each list item
 for (let i = 0; i < listItems.length; i++) {
   attachListItemButtons(listItems[i]);
 }
+list.firstElementChild.className = 'first';
+list.lastElementChild.className = 'last';
+updateListOrderStyles(list);
+
+// Up, down, remove buttons - use parentNode to traverse up DOM
 
 list.addEventListener('click', (event) => {
   if (event.target.tagName == 'BUTTON') {
@@ -98,11 +115,17 @@ list.addEventListener('click', (event) => {
       let prevLi = li.previousElementSibling;
       if (prevLi) {
         ul.insertBefore(li, prevLi);
+        if (ul.firstElementChild === li || ul.lastElementChild === prevLi) {
+          updateListOrderStyles(ul);
+        }
       }
     } else if (event.target.className == 'down') {
       let nextLi = li.nextElementSibling;
       if (nextLi) {
         ul.insertBefore(nextLi, li);
+        if (ul.firstElementChild === nextLi || ul.lastElementChild === li) {
+          updateListOrderStyles(ul);
+        }
       }
     }
   }
